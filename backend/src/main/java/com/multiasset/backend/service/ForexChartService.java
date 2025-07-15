@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,11 +40,15 @@ public class ForexChartService {
                 ));
             }
 
+            List<CandleDto> sortedCandles = candles.stream()
+                    .sorted(Comparator.comparing(CandleDto::getDate))
+                    .collect(Collectors.toList());
+
             ChartResponse response = new ChartResponse();
             response.setSymbol(meta.path("symbol").asText());
             response.setType("forex");
             response.setCurrency(meta.path("currency").asText());
-            response.setCandles(candles);
+            response.setCandles(sortedCandles);
 
             return response;
 

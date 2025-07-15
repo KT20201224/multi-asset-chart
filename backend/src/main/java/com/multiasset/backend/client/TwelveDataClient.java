@@ -20,7 +20,8 @@ public class TwelveDataClient {
                 .queryParam("symbol", symbol)
                 .queryParam("interval", "1day")
                 .queryParam("outputsize", "30")
-                .queryParam("apiKey", apiKey)
+                .queryParam("apikey", apiKey)
+                .encode()
                 .toUriString();
 
         return restTemplate.getForObject(url, String.class);
